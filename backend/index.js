@@ -17,7 +17,7 @@ const queryHandler = (req, res, next) => {
 app.use(cors());
 
 app.get('/', (req, res) => {
-  res.send('Welcome to EQ Works 😎')
+  res.send('Welcome to EQ Works')
 })
 
 app.get('/events/hourly', (req, res, next) => {

@@ -21,6 +21,7 @@ componentDidMount(){
         return(
             <div>
                 <h1>this is the Daily page</h1>
+                <p>{this.state.results}</p>
             </div>
         )
     }

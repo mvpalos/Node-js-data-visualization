@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// import { BarChart } from 'react-d3';
 import axios from 'axios';
 
 class Hourly extends Component{
