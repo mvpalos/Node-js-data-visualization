@@ -9,25 +9,32 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      menuPressed: false
+      menuPressed: "close"
     }
     this.menuToggle = this.menuToggle.bind(this);
   }
 
 
 menuToggle=()=>{
-  this.setState({
-    menuPressed: !this.state.menuPressed
-  })
+  if (this.state.menuPressed === "close") {
+    this.setState({
+      menuPressed: "open"
+    });
+  }
+  else if (this.state.menuPressed === "open") {
+    this.setState({
+      menuPressed: "close"
+    });
+  }
 }
 
   render() {
     return (
       <div className="App">
     <div onClick ={this.menuToggle} className="container">
-     <div className="stick stick-1"></div>
-      <div className="stick stick-2"></div>
-      <div className="stick stick-3"></div>
+     <div className={"stick stick-1 " + this.state.menuPressed}></div>
+      <div className={"stick stick-2 .close " + this.state.menuPressed}></div>
+      <div className={"stick stick-3 .close " + this.state.menuPressed}></div>
     </div>
       <nav>
         <li><Link className = "header" to = "/">Home</Link></li>
