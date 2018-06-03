@@ -26,16 +26,11 @@ li{
 .container {
   width: 80px;
   height: 80px;
-  position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
+  margin-left: 10px;
   cursor: pointer;
 }
 
@@ -64,6 +59,13 @@ li{
   animation: stick-3-open .6s linear forwards;
 }
 
+/*navbar texts*/
+header{
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  color: #2DFDB9;
+}
+
+/*End of navbar*/
 @keyframes stick-1-open {
   0%   {width: 80px;}
   40%  {background-color: #ff1456; width: 8px; transform: translate(40px, 0px);}
