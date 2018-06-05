@@ -121,3 +121,9 @@ header{
   90%  {width: 8px;}
   100% {width: 80px; transform: translate(0, 0px);}
 }
+
+/*Hourly Chart Js*/
+
+#chart{
+  width: 60%;
+}

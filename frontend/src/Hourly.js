@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-// import { BarChart } from 'react-d3';
 import axios from 'axios';
+import Graph from './Graph';
 
 class Hourly extends Component{
     constructor(){
         super()
         this.state = {
-            results: " "
+            results: " ",
+
         };
     }
 componentDidMount() {
@@ -21,7 +22,7 @@ componentDidMount() {
     render(){
         return(
             <div>
-                <h1>this is the Hourly page</h1>
+                <Graph />
                 <div>{this.state.results}</div>
             </div>
         )
