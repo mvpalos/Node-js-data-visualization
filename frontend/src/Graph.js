@@ -1,11 +1,12 @@
 import React from "react";
 import Chart from "chart.js";
+import axios from "axios";
 
 class Graph extends React.Component {
     constructor() {
         super();
-
-        this.state = {
+     this.state = {
+            results: " ",
             chartData: {
                 type: 'scatter',
                 data: {
@@ -46,8 +47,15 @@ class Graph extends React.Component {
     }
 
     componentDidMount() {
-        const ctx = document.getElementById("canvas");
-        const canvas = new Chart(ctx, this.state.chartData);
+        axios.get('http://localhost:5555/events/hourly')
+            .then((results)=>{
+                console.log(results.data)
+                const ctx = document.getElementById("canvas");
+                const canvas = new Chart(ctx, this.state.chartData);
+            })
+            .catch((error)=>{
+                console.log(error)
+            })
     }
 
 
