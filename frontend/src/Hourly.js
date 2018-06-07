@@ -9,7 +9,7 @@ class Hourly extends Component{
     render(){
         return(
             <div>
-                <Graph />
+                <center><Graph /></center>
             </div>
         )
     }

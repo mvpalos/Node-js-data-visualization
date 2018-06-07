@@ -21,6 +21,11 @@ li{
   padding: .5em;
 }
 
+p{
+  font-family: sans-serif;
+  font-size: 1em;
+}
+
 /*navigation bar*/
 
 .container {
@@ -122,8 +127,7 @@ header{
   100% {width: 80px; transform: translate(0, 0px);}
 }
 
-/*Hourly Chart Js*/
-
+/*Graph Js*/
 #chart{
-  width: 60%;
+  width: 85%;
 }
