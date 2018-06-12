@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+
+import Canvas from './Canvas';
+
 class Home extends Component{
     constructor(){
         super();
@@ -23,8 +26,8 @@ componentDidMount(){
 
          return(
             <div>
-                <h1>Home</h1>
-                <h4>{this.state.results}</h4>
+                <Canvas width = {800} height = {600} />
+               <h4>{this.state.results}</h4>
             </div>    
         )
     }
