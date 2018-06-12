@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 
-import Canvas from './Canvas';
+import SpinningBox from './SpinningBox';
 
 class Home extends Component{
     constructor(){
@@ -26,7 +26,7 @@ componentDidMount(){
 
          return(
             <div>
-                <Canvas width = {800} height = {600} />
+                <SpinningBox width = {1265} height = {600} />
                <h4>{this.state.results}</h4>
             </div>    
         )

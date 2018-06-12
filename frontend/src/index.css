@@ -5,11 +5,11 @@ body {
   /* background-color: black; */
 }
 
-canvas{
-  width:100%;
-  height: 100%;
-  background-color:#A5FEFB ;
+canvas { 
+  width: 100%; 
+  height: 100% 
 }
+
 
 h1{
   color: #2DFDB9;
@@ -21,7 +21,7 @@ h1{
   color: #2DFDB9;
 }
 h4{
-  color: black;
+  color:greenyellow;
   font-size: 4em;
   padding: 90px;
   font-family: 'Montserrat', sans-serif;

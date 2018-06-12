@@ -33,8 +33,6 @@ menuToggle=()=>{
 
   render() {
     return (
-      <div className="row">
-      <div className="col-12">
       <div className="App">
     <div onClick ={this.menuToggle} className="container">
      <div className = {"stick stick-1 " + this.state.menuPressed}></div>
@@ -50,8 +48,6 @@ menuToggle=()=>{
       <Route path = "/stats" component = {Stats} />
       <Route path = "/events" component = {Events}/>
 
-      </div>
-      </div>
       </div>
 
     );
