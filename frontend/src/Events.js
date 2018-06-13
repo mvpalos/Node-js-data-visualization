@@ -23,8 +23,8 @@ class Events extends Component{
                             
                         </nav>
                     <Switch>
-                        <Route path='/events/hourly' component={Hourly} />
-                        <Route path='/events/daily' component={Daily} /> 
+                        <Route path = '/events/hourly' component={Hourly} />
+                        <Route path = '/events/daily' component={Daily} /> 
  
                     </Switch>
                     </div>
