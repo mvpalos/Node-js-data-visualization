@@ -18,8 +18,8 @@ class Events extends Component{
                 <Router>
                     <div>
                         <nav>
-                            <Link to = "/events/hourly">Hourly</Link>
-                            <Link to = "/events/daily">Daily</Link>
+                            <Link className = "btn-2" to = "/events/hourly">Hourly</Link>
+                            <Link className = "btn-2" to = "/events/daily">Daily</Link>
                             
                         </nav>
                     <Switch>

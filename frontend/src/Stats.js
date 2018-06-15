@@ -18,8 +18,8 @@ class Stats extends Component{
                 <Router>
                     <div>
                         <nav>
-                            <Link to = "/stats/hourly">Hourly</Link>
-                            <Link to = "/stats/daily">Daily</Link>
+                            <Link className = "btn-2" to = "/stats/hourly">Hourly</Link>
+                            <Link className = "btn-2" to = "/stats/daily">Daily</Link>
                             
                         </nav>
                     <Switch>

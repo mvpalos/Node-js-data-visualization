@@ -25,14 +25,16 @@ class Graph extends React.Component {
                     type: "scatter",
                     data: {
                         datasets: [{
-                            label: "Hourly Events",
+                            label: "Hourly / Daily",
+                            backgroundColor: '#2DFDB9',
                             data: this.state.results.map((value) => {
                                 return {
                                     x: value.hour,
                                     y: value.events
                                 }
                             })
-                        }]
+                        }
+                    ]
                     },
                     options: {
                         scales: {

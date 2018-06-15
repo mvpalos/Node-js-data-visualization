@@ -2,7 +2,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  /* background-color: black; */
+ background-color: black;
 }
 
 canvas { 
@@ -13,15 +13,22 @@ canvas {
 
 h1{
   color: #2DFDB9;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .header{
+  font-family: 'Montserrat', sans-serif;
   text-decoration: none;
   font-size: 2em;
   color: #2DFDB9;
 }
+.header:hover {
+letter-spacing: 5px;
+color: #ff1456;
+}
+
 h4{
-  color:greenyellow;
+  color:#2DFDB9;
   font-size: 4em;
   padding: 90px;
   font-family: 'Montserrat', sans-serif;
@@ -34,12 +41,65 @@ li{
 }
 
 p{
-  font-family: sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: 1em;
+  color: #2DFDB9;
 }
 
-/*navigation bar*/
+/*chart*/
 
+#myChart{
+  padding: 1em;
+}
+
+/*hover effect*/
+
+* {
+  box-sizing: inherit;
+  transition-property: all;
+  transition-duration: .6s;
+  transition-timing-function: ease;
+}
+
+.btn-2 {
+  letter-spacing: 0;
+  font-size:1em;
+  padding: 1em;
+  text-decoration: none;
+  color: #2DFDB9;
+  display: inline;
+}
+
+.btn-2:hover,
+.btn-2:active {
+letter-spacing: 5px;
+color: #ff1456;
+}
+
+.btn-2:after,
+.btn-2:before {
+bottom: 0px;
+display: inline;
+margin: 0 auto;
+position: relative;
+transition: all 280ms ease-in-out;
+}
+
+.btn-2:hover:after,
+.btn-2:hover:before {
+backface-visibility: hidden;
+border-color: #fff;
+transition: width 350ms ease-in-out;
+width: 70%;
+}
+
+.btn-2:hover:before {
+bottom: auto;
+top: 0;
+width: 70%;
+}
+
+/*hamburger menu*/
 .container {
   width: 80px;
   height: 80px;
@@ -76,11 +136,7 @@ p{
   animation: stick-3-open .6s linear forwards;
 }
 
-/*navbar texts*/
-header{
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  color: #2DFDB9;
-}
+
 
 /*End of navbar*/
 @keyframes stick-1-open {

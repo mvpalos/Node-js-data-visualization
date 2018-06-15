@@ -29,7 +29,7 @@ componentDidMount(){
 		});
 
           const geometry = new THREE.BoxGeometry(2, 2, 2),
-                material = new THREE.MeshBasicMaterial({color: 0x0ff00, wireframe: true}),
+                material = new THREE.MeshBasicMaterial({color: 0x2DFDB9, wireframe: true}),
                 cube = new THREE.Mesh(geometry, material);
 
         scene.add(cube);
