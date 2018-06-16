@@ -10,15 +10,16 @@ componentDidMount(){
           camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 1000),
           renderer = new THREE.WebGLRenderer();
 
+        //this section resizes the canvas
           renderer.setSize(width , height)
-          this.refs.anchor.appendChild(renderer.domElement);
 
+          this.refs.anchor.appendChild(renderer.domElement);
           window.addEventListener("load", function() {
 			let width = window.innerWidth;
 			let height = window.innerHeight;
 			renderer.setSize(width, height);
 			camera.aspect = width/height;
-			// let controls = new THREE.OrbitControls(camera, renderer.domElement);
+			let controls = new THREE.OrbitControls(camera);
         });
         
         window.addEventListener("resize", function() {
@@ -27,7 +28,7 @@ componentDidMount(){
 			renderer.setSize(width, height);
 			camera.aspect = width/height;
 		});
-
+    
           const geometry = new THREE.BoxGeometry(2, 2, 2),
                 material = new THREE.MeshBasicMaterial({color: 0x2DFDB9, wireframe: true}),
                 cube = new THREE.Mesh(geometry, material);

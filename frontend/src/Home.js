@@ -26,8 +26,8 @@ componentDidMount(){
 
          return(
             <div>
-                <SpinningBox width = {1300} height = {600} />
-               <h4>{this.state.results}</h4>
+                <h4>{this.state.results}</h4>
+                <center><SpinningBox width = {1300} height = {600} /></center>
             </div>    
         )
     }
