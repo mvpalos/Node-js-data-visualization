@@ -19,8 +19,10 @@ componentDidMount(){
 			let height = window.innerHeight;
 			renderer.setSize(width, height);
 			camera.aspect = width/height;
-			let controls = new THREE.OrbitControls(camera);
+		    // let controls = new OrbitControls(camera, renderer);
         });
+
+
         
         window.addEventListener("resize", function() {
 			let width = window.innerWidth;
