@@ -3,6 +3,8 @@ const express = require('express')
 const pg = require('pg')
 const cors = require("cors");
 
+// const tf = require('@tensorflow/tfjs-node');
+
 const app = express()
 // configs come from standard PostgreSQL env vars
 // https://www.postgresql.org/docs/9.6/static/libpq-envars.html
@@ -15,6 +17,7 @@ const queryHandler = (req, res, next) => {
 }
 
 app.use(cors());
+// tf.setBackend('tensorflow');
 
 app.get('/', (req, res) => {
   res.send('Welcome')
@@ -41,37 +44,12 @@ app.get('/events/daily', (req, res, next) => {
   return next()
 }, queryHandler)
 
-app.get('/stats/hourly', (req, res, next) => {
-  req.sqlQuery = `
-    SELECT date, hour, impressions, clicks, revenue
-    FROM public.hourly_stats
-    ORDER BY date, hour
-    LIMIT 168;
-  `
-  return next()
-}, queryHandler)
+app.get('/testing/hourly', (req, res, next) => {
+})
 
-app.get('/stats/daily', (req, res, next) => {
-  req.sqlQuery = `
-    SELECT date,
-        SUM(impressions) AS impressions,
-        SUM(clicks) AS clicks,
-        SUM(revenue) AS revenue
-    FROM public.hourly_stats
-    GROUP BY date
-    ORDER BY date
-    LIMIT 7;
-  `
-  return next()
-}, queryHandler)
+app.get('/testing/daily', (req, res, next) => {
+})
 
-app.get('/poi', (req, res, next) => {
-  req.sqlQuery = `
-    SELECT *
-    FROM public.poi;
-  `
-  return next()
-}, queryHandler)
 
 app.listen(process.env.PORT || 5555, (err) => {
   if (err) {

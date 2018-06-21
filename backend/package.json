@@ -19,12 +19,13 @@
   },
   "homepage": "https://github.com/EQWorks/ws-product-nodejs#readme",
   "dependencies": {
+    "@tensorflow/tfjs-node": "^0.1.7",
     "cors": "^2.8.4",
     "dotenv": "^5.0.1",
     "express": "^4.15.3",
     "pg": "^6.2.4"
   },
   "devDependencies": {
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.17.5"
   }
 }

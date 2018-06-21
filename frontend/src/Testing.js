@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
-import Hourly from './Hourly';
-import Daily from './Daily';
+import Tensor from './Tensor';
+import Prototype from './Prototype';
 
-class Stats extends Component{
+class Testing extends Component{
     constructor(){
         super();
         
@@ -13,18 +13,18 @@ class Stats extends Component{
         return(
             <div>
                 <h1>
-                    Stats
+                    Testing
                 </h1>
                 <Router>
                     <div>
                         <nav>
-                            <Link className = "btn-2" to = "/stats/hourly">Hourly</Link>
-                            <Link className = "btn-2" to = "/stats/daily">Daily</Link>
+                            <Link className = "btn-2" to = "/testing/tensor">Tensor</Link>
+                            <Link className = "btn-2" to = "/testing/prototype">Prototype</Link>
                             
                         </nav>
                     <Switch>
-                        <Route path = '/stats/hourly' component={Hourly} />
-                        <Route path = '/stats/daily' component={Daily} /> 
+                        <Route path = '/testing/tensor' component={Tensor} />
+                        <Route path = '/testing/prototype' component={Prototype} /> 
  
                     </Switch>
                     </div>
@@ -34,4 +34,4 @@ class Stats extends Component{
     }
 }
 
-export default Stats;
+export default Testing;

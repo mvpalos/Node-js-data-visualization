@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Route, Link, Redirect, withRouter } from 'react-router-dom';
 import './App.css';
-import Stats from './Stats';
 import Home from './Home';
 import Events from './Events'
+import Testing from './Testing';
 
 class App extends Component {
   constructor(){
@@ -41,12 +41,12 @@ menuToggle=()=>{
     </div>
       <nav className = 'mainNav' onClick = {this.menuToggle} >
         <li style = {{display: this.state.listDisplay}}><Link className = "header" to = "/">Home</Link></li>
-        <li style = {{display: this.state.listDisplay}}><Link className = "header" to = "/stats">Stats</Link></li>
         <li style = {{display: this.state.listDisplay}}><Link className = "header" to = "/events">Events</Link></li>
+        <li style = {{display: this.state.listDisplay}}><Link className = "header" to = "/testing">Testing</Link></li>
       </nav>
       <Route exact path = "/" component = {Home} />
-      <Route path = "/stats" component = {Stats} />
       <Route path = "/events" component = {Events}/>
+      <Route path = "/testing" component = {Testing} />
 
       </div>
 
