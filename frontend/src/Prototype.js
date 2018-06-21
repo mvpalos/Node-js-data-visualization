@@ -91,6 +91,42 @@ function isiOS() {
         },
         net: null,
     };
+//SETTING UP DATA CONTROLLERS
+
+function setupGui(camera, net){
+    guiState.net = net;
+
+    if(camera.length > 0){
+        guiState.camera = camera[0].deviceId;
+    }
+   const gui = new dat.GUI({width: 300});
+   //creating a variable for multi-pose or single-pose
+   // for one or more people
+   const algorithmController = 
+   gui.add(guiState, 'algorithm', ['single-pose', 'multi-pose']);
+   //the input paremeters have the most effect on the accuracy and speed
+   let input = gui.addFolder('Input');
+   //accuracty range from 1.01 is the largest, but will be the slowest. 0.50 is the
+  // fastest, but least accurate.
+  const architectureController = input.add(
+    guiState.input, 'mobileNetArchitecture',
+    ['1.01', '1.00', '0.75', '0.50']);
+    //this specifies what scale the image is before feeding it into the network
+    input.add(guiState.input, 'imageScaleFactor').min(0.2).max(1.0);
+    input.open(); 
+//Pose confidence : 
+let signle = gui.addFolder('Single Pose Detection');
+    sigle.add(guiState.multiPoseDetection, 'maxPoseDetection')
+        .min(1)
+        .max(20)
+        .step(1);
+        multi.add(guiState.multiPoseDetection, 'minPoseConfidence', 0.0, 1.0);
+        multi.add(guiState.multiPoseDetection, 'minPartConfidence', 0.0, 1.0);
+// nms Radius: controls the minimum distance between poses that are returned
+multi.add(gui.multiPoseDetection, 'nmRadius').min(0.0).max(40.0);
+multi.open();
+
+    }
 }
 
 
