@@ -1,132 +1,330 @@
 import React, {Component} from 'react';
 import * as posenet from '@tensorflow-models/posenet';
+import Stats from 'stats.js';
 import dat from 'dat.gui';
 
 class Prototype extends Component{
-    constructor(){
-        super()
-    }
+        stats = new Stats();
+
 /*checking for device according to OS and device type*/
 componentDidMount(){
-    const width = 600;
-    const height = 500;
-    // const stats = new Stats();
+    const videoWidth = 600;
+    const videoHeight = 500;
+    const color = 'aqua';
+    const lineWidth = 2;
 
-function isAndroid(){
-    return /Android/i.test(navigator.userAgent);
-}
+function toTuple({y, x}) {
+        return [y, x];
+      }
 
-function isiOS() {
-    return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+function drawPoint(ctx, y, x, r, color) {
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, 2 * Math.PI);
+        ctx.fillStyle = color;
+        ctx.fill();
+      }
+function drawSegment([ay, ax], [by, bx], color, scale, ctx) {
+        ctx.beginPath();
+        ctx.moveTo(ax * scale, ay * scale);
+        ctx.lineTo(bx * scale, by * scale);
+        ctx.lineWidth = lineWidth;
+        ctx.strokeStyle = color;
+        ctx.stroke();
+      }
+
+
+
+/* Draw pose keypoints onto a canvas */
+function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
+    for (let i = 0; i < keypoints.length; i++) {
+      const keypoint = keypoints[i];
+    if (keypoint.score < minConfidence) {
+        continue;
+      }
+    const {y, x} = keypoint.position;
+      drawPoint(ctx, y * scale, x * scale, 3, color);
+    }
+    return ;
   }
 
-  function isMobile(){
+/*Draws a pose skeleton by looking up all adjacent keypoints/joints*/
+function drawSkeleton(keypoints, minConfidence, ctx, scale = 1) {
+    const adjacentKeyPoints = posenet.getAdjacentKeyPoints(
+      keypoints, minConfidence);
+  
+    adjacentKeyPoints.forEach((keypoints) => {
+      drawSegment(toTuple(keypoints[0].position),
+        toTuple(keypoints[1].position), color, scale, ctx);
+    });
+    return ;
+  }
+
+
+
+  
+    
+    function isAndroid() {
+      return /Android/i.test(navigator.userAgent);
+    }
+    
+    function isiOS() {
+      return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+    
+    function isMobile() {
       return isAndroid() || isiOS();
-  }
-
-  /*Loads a the camera to be used in demo*/
-    async function setUpCamera() {
-        if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
-            throw new Error(
-                'Browser API navigator.mediaDevices is not avalible');
-        }
-
-        //creating the video size
-        const video = document.getElementById('video');
-        video.width = videoWidth;
-        video.height = videoHeight;      
-
-        //awaiting promise for navigation detection
-        const mobile = isMobile();
-        const stream = await navigator.mediaDevices.getUserMedia({
-            'audio' : false,
-            'video' : {
-                facingMode : 'user',
-                width : mobile ? undefined : videoWidth,
-                height : mobile ? undefined : videoHeight
-            },
-        });
-        video.srcObject = stream;
-
-        return new Promise((resolve)=>{
-            //meta data refering to data about data ei. the loading time
-            video.onloadedmetadata = () => {
-                resolve(video);
-            };
-        });
     }
-
-    /*creating a PLAY VIDEO BUTTON*/
-    async function loadVideo(){
-        //calling previouse setupCamera() involving 
-        //1.creating video size, 
-        //2. detectign device 
-        const video = await setUpCamera();
-        video.play();
-
-        return video;
+    
+    /**
+     * Loads a the camera to be used in the demo
+     *
+     */
+    async function setupCamera() {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error(
+            'Browser API navigator.mediaDevices.getUserMedia not available');
+      }
+    
+      const video = document.getElementById('video');
+      video.width = videoWidth;
+      video.height = videoHeight;
+    
+      const mobile = isMobile();
+      const stream = await navigator.mediaDevices.getUserMedia({
+        'audio': false,
+        'video': {
+          facingMode: 'user',
+          width: mobile ? undefined : videoWidth,
+          height: mobile ? undefined : videoHeight,
+        },
+      });
+      video.srcObject = stream;
+    
+      return new Promise((resolve) => {
+        video.onloadedmetadata = () => {
+          resolve(video);
+        };
+      });
     }
-/*CREATING VIDEO GUI */
+    
+    async function loadVideo() {
+      const video = await setupCamera();
+      video.play();
+    
+      return video;
+    }
+    
     const guiState = {
-        algorithm : 'multi-pose',
-        input : {
-            mobileNetArchitecture : isMobile() ? '0,5' : '0.75', 
-            outputStride : 16,
-            imageScaleFactor : 0.5,
-        },
-        singlePoseDetection : {
-            minPoseConfidence : 0.1,
-            minPartConfidence : 0.5,
-        },
-        multiPoseDetection : {
-            maxPoseDetections : 5,
-            minPoseConfidence : 0.15,
-            minPartConfidence : 0.1,
-            nmsRadius : 30.0,
-        },
-        output : {
-            showVideo : true,
-            showSkeleton : true,
-            showPoints : true,
-        },
-        net: null,
+      algorithm: 'multi-pose',
+      input: {
+        mobileNetArchitecture: isMobile() ? '0.50' : '0.75',
+        outputStride: 16,
+        imageScaleFactor: 0.5,
+      },
+      singlePoseDetection: {
+        minPoseConfidence: 0.1,
+        minPartConfidence: 0.5,
+      },
+      multiPoseDetection: {
+        maxPoseDetections: 5,
+        minPoseConfidence: 0.15,
+        minPartConfidence: 0.1,
+        nmsRadius: 30.0,
+      },
+      output: {
+        showVideo: true,
+        showSkeleton: true,
+        showPoints: true,
+      },
+      net: null,
     };
-//SETTING UP DATA CONTROLLERS
+    
+    /**
+     * Sets up dat.gui controller on the top-right of the window
+     */
+    function setupGui(cameras, net) {
+      guiState.net = net;
+    
+      if (cameras.length > 0) {
+        guiState.camera = cameras[0].deviceId;
+      }
+    
+      const gui = new dat.GUI({width: 300});
+    
 
-function setupGui(camera, net){
-    guiState.net = net;
+      const algorithmController =
+          gui.add(guiState, 'algorithm', ['single-pose', 'multi-pose']);
+    
 
-    if(camera.length > 0){
-        guiState.camera = camera[0].deviceId;
+      let input = gui.addFolder('Input');
+
+      const architectureController = input.add(
+          guiState.input, 'mobileNetArchitecture',
+          ['1.01', '1.00', '0.75', '0.50']);
+
+      input.add(guiState.input, 'outputStride', [8, 16, 32]);
+
+      input.add(guiState.input, 'imageScaleFactor').min(0.2).max(1.0);
+      input.open();
+
+      let single = gui.addFolder('Single Pose Detection');
+      single.add(guiState.singlePoseDetection, 'minPoseConfidence', 0.0, 1.0);
+      single.add(guiState.singlePoseDetection, 'minPartConfidence', 0.0, 1.0);
+    
+      let multi = gui.addFolder('Multi Pose Detection');
+      multi.add(guiState.multiPoseDetection, 'maxPoseDetections')
+          .min(1)
+          .max(20)
+          .step(1);
+      multi.add(guiState.multiPoseDetection, 'minPoseConfidence', 0.0, 1.0);
+      multi.add(guiState.multiPoseDetection, 'minPartConfidence', 0.0, 1.0);
+
+
+      multi.add(guiState.multiPoseDetection, 'nmsRadius').min(0.0).max(40.0);
+      multi.open();
+    
+      let output = gui.addFolder('Output');
+      output.add(guiState.output, 'showVideo');
+      output.add(guiState.output, 'showSkeleton');
+      output.add(guiState.output, 'showPoints');
+      output.open();
+    
+    
+      architectureController.onChange(function(architecture) {
+        guiState.changeToArchitecture = architecture;
+      });
+    
+      algorithmController.onChange(function(value) {
+        switch (guiState.algorithm) {
+          case 'single-pose':
+            multi.close();
+            single.open();
+            break;
+          case 'multi-pose':
+            single.close();
+            multi.open();
+            break;
+        }
+      });
     }
-   const gui = new dat.GUI({width: 300});
-   //creating a variable for multi-pose or single-pose
-   // for one or more people
-   const algorithmController = 
-   gui.add(guiState, 'algorithm', ['single-pose', 'multi-pose']);
-   //the input paremeters have the most effect on the accuracy and speed
-   let input = gui.addFolder('Input');
-   //accuracty range from 1.01 is the largest, but will be the slowest. 0.50 is the
-  // fastest, but least accurate.
-  const architectureController = input.add(
-    guiState.input, 'mobileNetArchitecture',
-    ['1.01', '1.00', '0.75', '0.50']);
-    //this specifies what scale the image is before feeding it into the network
-    input.add(guiState.input, 'imageScaleFactor').min(0.2).max(1.0);
-    input.open(); 
-//Pose confidence : 
-let signle = gui.addFolder('Single Pose Detection');
-    sigle.add(guiState.multiPoseDetection, 'maxPoseDetection')
-        .min(1)
-        .max(20)
-        .step(1);
-        multi.add(guiState.multiPoseDetection, 'minPoseConfidence', 0.0, 1.0);
-        multi.add(guiState.multiPoseDetection, 'minPartConfidence', 0.0, 1.0);
-// nms Radius: controls the minimum distance between poses that are returned
-multi.add(gui.multiPoseDetection, 'nmRadius').min(0.0).max(40.0);
-multi.open();
-
+    
+    /**
+     * Sets up a frames per second panel on the top-left of the window
+     */
+    function setupFPS() {
+      Stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+      document.body.appendChild(Stats.dom);
     }
+    
+    function detectPoseInRealTime(video, net) {
+      const canvas = document.getElementById('output');
+      const ctx = canvas.getContext('2d');
+      // since images are being fed from a webcam
+      const flipHorizontal = true;
+    
+      canvas.width = videoWidth;
+      canvas.height = videoHeight;
+    
+      async function poseDetectionFrame() {
+        if (guiState.changeToArchitecture) {
+          // Important to purge variables and free up GPU memory
+          guiState.net.dispose();
+    
+          guiState.net = await posenet.load(+guiState.changeToArchitecture);
+    
+          guiState.changeToArchitecture = null;
+        }
+    
+        // Begin monitoring code for frames per second
+        Stats.begin();
+    
+        const imageScaleFactor = guiState.input.imageScaleFactor;
+        const outputStride = +guiState.input.outputStride;
+    
+        let poses = [];
+        let minPoseConfidence;
+        let minPartConfidence;
+        switch (guiState.algorithm) {
+          case 'single-pose':
+            const pose = await guiState.net.estimateSinglePose(
+                video, imageScaleFactor, flipHorizontal, outputStride);
+            poses.push(pose);
+    
+            minPoseConfidence = +guiState.singlePoseDetection.minPoseConfidence;
+            minPartConfidence = +guiState.singlePoseDetection.minPartConfidence;
+            break;
+          case 'multi-pose':
+            poses = await guiState.net.estimateMultiplePoses(
+                video, imageScaleFactor, flipHorizontal, outputStride,
+                guiState.multiPoseDetection.maxPoseDetections,
+                guiState.multiPoseDetection.minPartConfidence,
+                guiState.multiPoseDetection.nmsRadius);
+    
+            minPoseConfidence = +guiState.multiPoseDetection.minPoseConfidence;
+            minPartConfidence = +guiState.multiPoseDetection.minPartConfidence;
+            break;
+        }
+    
+        ctx.clearRect(0, 0, videoWidth, videoHeight);
+    
+        if (guiState.output.showVideo) {
+          ctx.save();
+          ctx.scale(-1, 1);
+          ctx.translate(-videoWidth, 0);
+          ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
+          ctx.restore();
+        }
+ 
+        poses.forEach(({score, keypoints}) => {
+          if (score >= minPoseConfidence) {
+            if (guiState.output.showPoints) {
+              drawKeypoints(keypoints, minPartConfidence, ctx);
+            }
+            if (guiState.output.showSkeleton) {
+              drawSkeleton(keypoints, minPartConfidence, ctx);
+            }
+          }
+        });
+    
+        // End monitoring code for frames per second
+        Stats.end();
+    
+        requestAnimationFrame(poseDetectionFrame);
+      }
+    
+      poseDetectionFrame();
+    }
+    
+    async function bindPage() {
+      // Load the PoseNet model weights with architecture 0.75
+      const net = await posenet.load(0.75);
+    
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('main').style.display = 'block';
+    
+      let video;
+    
+      try {
+        video = await loadVideo();
+      } catch (e) {
+        let info = document.getElementById('info');
+        info.textContent = 'this browser does not support video capture,' +
+            'or this device does not have a camera';
+        info.style.display = 'block';
+        throw e;
+      }
+    
+      setupGui([], net);
+      setupFPS();
+      detectPoseInRealTime(video, net);
+    }
+    
+    navigator.getUserMedia = navigator.getUserMedia ||
+        navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    // kick off the demo
+    bindPage();
+    
+
 }
 
 
