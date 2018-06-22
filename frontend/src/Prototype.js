@@ -3,15 +3,17 @@ import * as posenet from '@tensorflow-models/posenet';
 import Stats from 'stats.js';
 import dat from 'dat.gui';
 
+const stats = new Stats();
+
 class Prototype extends Component{
-        stats = new Stats();
 
 /*checking for device according to OS and device type*/
-componentDidMount(){
+componentWillMount(){
     const videoWidth = 600;
     const videoHeight = 500;
     const color = 'aqua';
     const lineWidth = 2;
+
 
 function toTuple({y, x}) {
         return [y, x];
@@ -212,8 +214,8 @@ function drawSkeleton(keypoints, minConfidence, ctx, scale = 1) {
      * Sets up a frames per second panel on the top-left of the window
      */
     function setupFPS() {
-      Stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-      document.body.appendChild(Stats.dom);
+      stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+      document.body.appendChild(stats.dom);
     }
     
     function detectPoseInRealTime(video, net) {
@@ -236,7 +238,7 @@ function drawSkeleton(keypoints, minConfidence, ctx, scale = 1) {
         }
     
         // Begin monitoring code for frames per second
-        Stats.begin();
+        stats.begin();
     
         const imageScaleFactor = guiState.input.imageScaleFactor;
         const outputStride = +guiState.input.outputStride;
@@ -287,7 +289,7 @@ function drawSkeleton(keypoints, minConfidence, ctx, scale = 1) {
         });
     
         // End monitoring code for frames per second
-        Stats.end();
+        stats.end();
     
         requestAnimationFrame(poseDetectionFrame);
       }
@@ -330,12 +332,16 @@ function drawSkeleton(keypoints, minConfidence, ctx, scale = 1) {
 
     render(){
         return(
-            <div class>
+            <div>
             <center>
-                <div className = "text">
-                <p>this is the prototype</p>
-            </div>
             </center>
+            <div id="loading">Loading the model...</div>
+            <div id='main'>
+            <video id="video">
+        </video>
+        <canvas id="output" />
+    </div>
+
             </div>
         )
     }
