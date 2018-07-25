@@ -4,6 +4,7 @@ import './App.css';
 import Home from './Home';
 import Events from './Events'
 import Testing from './Testing';
+import SignIn from './SignIn';
 
 class App extends Component {
   constructor(){
@@ -44,7 +45,8 @@ menuToggle=()=>{
         <li style = {{display: this.state.listDisplay}}><Link className = "header" to = "/events">Events</Link></li>
         <li style = {{display: this.state.listDisplay}}><Link className = "header" to = "/testing">Testing</Link></li>
       </nav>
-      <Route exact path = "/" component = {Home} />
+      <Route exact path = "/" component = {SignIn} />
+      <Route path = "/home" component = {Home} />
       <Route path = "/events" component = {Events}/>
       <Route path = "/testing" component = {Testing} />
 
