@@ -57,7 +57,7 @@ class SignIn extends Component {
                     <br/>
                     <input style={submitType} type="submit" />
                 </form>
-                <p1><Link to ="/register">Register</Link></p1>
+                <p><Link to ="/register" style = {{color : '#2DFDB9', fontSize : '1.5em', textDecoration : 'none'}}>Register</Link></p>
 
         </div>
         )

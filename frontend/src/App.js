@@ -41,7 +41,7 @@ menuToggle=()=>{
       <div className = {"stick stick-3 .close " + this.state.menuPressed}></div>
     </div>
       <nav className = 'mainNav' onClick = {this.menuToggle} >
-        <li style = {{display: this.state.listDisplay}}><Link className = "header" to = "/">Home</Link></li>
+        <li style = {{display: this.state.listDisplay}}><Link className = "header" to = "/home">Home</Link></li>
         <li style = {{display: this.state.listDisplay}}><Link className = "header" to = "/events">Events</Link></li>
         <li style = {{display: this.state.listDisplay}}><Link className = "header" to = "/testing">Testing</Link></li>
       </nav>
