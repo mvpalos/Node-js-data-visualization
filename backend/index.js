@@ -3,11 +3,12 @@ const express = require('express')
 const pg = require('pg')
 const cors = require("cors");
 const router = require('./routes.js')
+const app = express()
+
 
 // const tf = require('@tensorflow/tfjs-node');
 
 app.use(router);
-const app = express()
 // configs come from standard PostgreSQL env vars
 // https://www.postgresql.org/docs/9.6/static/libpq-envars.html
 const pool = new pg.Pool()
