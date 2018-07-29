@@ -10,17 +10,27 @@ class Home extends Component{
             results: " " 
         };
     }
-componentDidMount(){
-   axios.get('http://localhost:5555/')
-    .then((result)=>{
-        this.setState({
-            results: result.data
-        }); 
-        console.log(result);
-    })
-    .catch((error)=>{
-        console.log(error);
-    })
+    componentDidMount(){
+        axios.post("http://localhost:8080/validtoken",{
+            jwt: localStorage.getItem("jwt")
+        })
+        .then(result=>{
+            if(result.data.error){
+                this.props.history.push('/');
+            }
+            else
+            {
+                this.setState({
+                    userName: result.data.alias
+                });
+            }
+        })
+}   
+
+logoutHandler()
+{
+    localStorage.removeItem("jwt");
+    this.props.history.push("/");
 }
     render(){
 

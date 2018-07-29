@@ -54,12 +54,12 @@ app.get('/testing/daily', (req, res, next) => {
 })
 
 
-app.listen(process.env.PORT || 5555, (err) => {
+app.listen(process.env.PORT || 8080, (err) => {
   if (err) {
     console.error(err)
     process.exit(1)
   } else {
-    console.log(`Running on ${process.env.PORT || 5555}`)
+    console.log(`Running on ${process.env.PORT || 8080}`)
   }
 })
 

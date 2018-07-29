@@ -5,7 +5,7 @@ import axios from 'axios';
 class SignIn extends Component {
 
     componentWillMount(){
-        axios.post('/validtoken', ({jwt: localStorage.getItem('jwt')}))
+        axios.post('http://localhost:8080/validtoken', ({jwt: localStorage.getItem('jwt')}))
         .then((result)=>{
             if(!result.data.error){
                 this.props.push('/home');
@@ -18,7 +18,7 @@ class SignIn extends Component {
 
     handleSubmit = (event) =>{
         event.preventDefault();
-        axios.post('/login',{
+        axios.post('http://localhost:8080/login',{
             userName: event.target.userName.value,
             passowrd: event.target.password.value
         })

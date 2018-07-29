@@ -32,7 +32,7 @@ router.use(bodyParser.json());
                     }
                 });
             });
-            router.post('/register', (req, res)=>{
+            router.post('http://localhost:5555/register', (req, res)=>{
                 if(typeof req.body.username === "string" && typeof req.body.password == "string"){
                     if(req.body.username && req.body.password){
                         if(req.body.username.trim() && req.body.username.trim().length <= 15){
