@@ -22,7 +22,7 @@ router.use(bodyParser.json());
             console.log(error); 
             });
 
-            router.post('/validtoken', (req, res)=>{
+            router.post('http://localhost:8080/validtoken', (req, res)=>{
                 jwt.verify(req.body.jwt, secret, (error, payload)=>{
                     if(!error){
                         res.json({error: false, alias: payload.alias});
@@ -32,7 +32,7 @@ router.use(bodyParser.json());
                     }
                 });
             });
-            router.post('http://localhost:5555/register', (req, res)=>{
+            router.post('http://localhost:8080/register', (req, res)=>{
                 if(typeof req.body.username === "string" && typeof req.body.password == "string"){
                     if(req.body.username && req.body.password){
                         if(req.body.username.trim() && req.body.username.trim().length <= 15){
@@ -88,7 +88,7 @@ router.use(bodyParser.json());
                     }
                 });
 
-        router.post('/login',(req, res)=>{
+        router.post('http://localhost:8080/login',(req, res)=>{
             if(typeof req.body.userName ==='string' && typeof req.body.password === 'string'){
                 User.findOne({username: req.body.userName.toLowerCase()})
                     .then((result)=>{

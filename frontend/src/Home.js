@@ -9,6 +9,7 @@ class Home extends Component{
         this.state = {
             results: " " 
         };
+this.logoutHandler = this.logoutHandler.bind(this);
     }
     componentDidMount(){
         axios.post("http://localhost:8080/validtoken",{
@@ -36,7 +37,8 @@ logoutHandler()
 
          return(
             <div>
-                <h4>{this.state.results}</h4>
+                <h4>{this.state.results}, {this.state.userName}!</h4>
+                <button onClick = {this.logoutHandler}>Logout</button>
                 <center><SpinningBox width = {1300} height = {600} /></center>
             </div>    
         )
