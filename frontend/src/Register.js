@@ -58,4 +58,26 @@ removeErrorHandler(){
         error: []
     })
 }
+render() {
+         let submitType ={
+        fontFamily: 'Open Sans, sans-serif',
+        fontSize: '15px'
+    }
+    return(
+        <div>
+        <h1>Register</h1>
+        {this.state.error}
+        <form onSubmit={this.registerHandler}>
+            <input style={submitType} id="username" name="username" type="text" placeholder="user name" />
+            <br/>
+            <input style={submitType}id="password" name="password" type="password" placeholder="password" />
+            <br/>
+            <br/>
+            <button id="submitButton" style={submitType} type="submit"> Submit </button>
+         </form>
+         <p><Link to ="/">back</Link></p>
+        
+        </div>
+    )
+}   
 }
