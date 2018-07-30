@@ -19,8 +19,8 @@ class SignIn extends Component {
     handleSubmit = (event) =>{
         event.preventDefault();
         axios.post('http://localhost:8080/login',{
-            userName: event.target.userName.value,
-            passowrd: event.target.password.value
+            userName: event.target.userName.value, 
+            password: event.target.password.value
         })
         .then((result)=>{
             if(!result.data.error){
