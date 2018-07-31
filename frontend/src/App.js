@@ -5,6 +5,7 @@ import Home from './Home';
 import Events from './Events'
 import Testing from './Testing';
 import SignIn from './SignIn';
+import Register from './Register';
 
 class App extends Component {
   constructor(){
@@ -45,10 +46,13 @@ menuToggle=()=>{
         <li style = {{display: this.state.listDisplay}}><Link className = "header" to = "/events">Events</Link></li>
         <li style = {{display: this.state.listDisplay}}><Link className = "header" to = "/testing">Testing</Link></li>
       </nav>
-      <Route exact path = "/" component = {SignIn} />
+      <Route exact path="/" render={(props)=><SignIn history={props.history}/>} />
       <Route path = "/home" component = {Home} />
       <Route path = "/events" component = {Events}/>
       <Route path = "/testing" component = {Testing} />
+      <Route path="/register" component={Register} />
+      <Route path="*" render={() => <Redirect to="/" />} />
+
 
       </div>
 
