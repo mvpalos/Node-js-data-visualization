@@ -22,7 +22,7 @@ const queryHandler = (req, res, next) => {
 app.use(cors());
 // tf.setBackend('tensorflow');
 
-app.get('/', (req, res) => {
+app.get('/home', (req, res) => {
   res.send('Welcome')
 })
 

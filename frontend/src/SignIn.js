@@ -5,37 +5,37 @@ import axios from 'axios';
 class SignIn extends Component {
 
     componentWillMount(){
-        axios.post('http://localhost:8080/validtoken', ({jwt: localStorage.getItem('jwt')}))
+        axios.post('http://localhost:8080/validtoken',({jwt:localStorage.getItem("jwt")}))
         .then((result)=>{
             if(!result.data.error){
-                this.props.push('/home');
+                this.props.history.push("/home");
             }
         })
         .catch((err)=>{
-            console.log(err)
+            console.log(err);
         })
     }
 
-    handleSubmit = (event) =>{
-        event.preventDefault();
-        axios.post('http://localhost:8080/login',{
+    handleSubmit = (event)=> {
+        event.preventDefault(); 
+        axios.post('http://localhost:8080/login', {
             userName: event.target.userName.value, 
             password: event.target.password.value
-        })
-        .then((result)=>{
-            if(!result.data.error){
-                if(result.data.jwt){
-                    localStorage.setItem('jwt', result.data.jwt);
-                    this.props.history.push('/home')
+            })
+            .then((result)=>{
+                if(!result.data.error){
+                    if(result.data.jwt){
+                        localStorage.setItem("jwt", result.data.jwt);
+                        this.props.history.push('/home');
+                    }
                 }
-            }
-            else{
-                console.log('failed to login!')
-            }
-        }) 
-        .catch((err)=>{
-            console.log(err)
-        })
+                else {
+                    console.log("Failed to login");
+                }
+            })
+            .catch((err)=>{
+                console.log(err);
+            })
     }
 
     render(){
@@ -55,7 +55,7 @@ class SignIn extends Component {
                     <input style={submitType} name="password" type="password" placeholder="password" />
                     <br/>
                     <br/>
-                    <input style={submitType} type="submit" />
+                    <button id="submitButton" style={submitType} type="submit"> Submit </button>
                 </form>
                 <p><Link to ="/register" style = {{color : '#2DFDB9', fontSize : '1.5em', textDecoration : 'none'}}>Register</Link></p>
 

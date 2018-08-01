@@ -59,7 +59,7 @@ removeErrorHandler(){
     })
 }
 render() {
-         let submitType ={
+    let submitType ={
         fontFamily: 'Open Sans, sans-serif',
         fontSize: '15px'
     }
@@ -75,7 +75,7 @@ render() {
             <br/>
             <button id="submitButton" style={submitType} type="submit"> Submit </button>
          </form>
-         <p><Link to ="/">back</Link></p>
+         <p><Link to ="/" style = {{color : '#2DFDB9', fontSize : '1.5em', textDecoration : 'none'}}>back</Link></p>
         
         </div>
     )
