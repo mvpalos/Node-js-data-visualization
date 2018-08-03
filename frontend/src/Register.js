@@ -12,7 +12,7 @@ class Register extends Component {
     this.removeErrorHandler = this.removeErrorHandler.bind(this);
     }
 componentWillMount(){
-        axios.post('/validtoken',({jwt:localStorage.getItem("jwt")}))
+        axios.post('http://localhost:8080/validtoken',({jwt:localStorage.getItem("jwt")}))
         .then((result)=>{
             if(!result.data.error){
                 this.props.history.push("/feed");
@@ -26,7 +26,7 @@ componentWillMount(){
     e.preventDefault();
     if (e.target.username && e.target.password)
     {
-        axios.post("/register", {
+        axios.post("http://localhost:8080/register", {
             username: e.target.username.value,
             password: e.target.password.value
         })
@@ -37,7 +37,7 @@ componentWillMount(){
                 if (results.data.jwt)
                 {
                     localStorage.setItem("jwt", results.data.jwt);
-                    this.props.history.push("/feed");
+                    this.props.history.push("http://localhost:8080/feed");
                 }
             }
             else
